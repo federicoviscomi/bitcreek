@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "killall -TERM rmiregistry" 
+if [ `killall -TERM rmiregistry` ]
+then
+        echo "rmiregistry killed"
+fi
+
+echo "compiling all server .java"
+javac  bitCreekCommon/*.java bitCreekServer/*.java ioInterface/ConsoleOut.java ioInterface/OutInterface.java ioInterface/ServerIOConsole.java ioInterface/ServerIOConsole.java 
+
+echo "generating stub for Remote Method Invocation"
+rmic bitCreekServer.BitCreekServer
+
+echo "starting remote register"
+rmiregistry &
+
+echo "done"
+
+

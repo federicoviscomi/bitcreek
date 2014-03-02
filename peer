@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if (( $# < 3 ))
+then
+        echo "USAGE: peer peerDirectory actionSourceFile bitCreekServerAddress"
+        exit -1
+fi
+
+cd $1
+java -Djavax.net.ssl.trustStore=clientstore bitCreekPeer.BitCreekPeer $2 $3
+
+

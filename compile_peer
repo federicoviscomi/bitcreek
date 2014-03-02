@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if (( $# < 1 ))
+then
+        echo "directory name for peer missing"
+        exit -1
+fi
+
+if [ -a $1 ] 
+then
+	if [ ! -d $1 ]
+	then
+		echo "error. file $1 exists and is not a direcotry"
+		exit -1
+	fi
+else
+	ANSWER=""
+	until [[ "$ANSWER" = "y" || "$ANSWER" = "n" ]]
+	do
+		echo "directory $1 doesn't exist. do you wish to create it?[y/n]"
+		read ANSWER NULL
+	done
+	if [ "$ANSWER" = "y" ]
+	then
+		echo "directory $1 created"
+		mkdir $1
+	else
+		echo "directory $1 not created"
+		exit -1
+	fi
+fi
+
+echo "compiling all client .java"
+javac bitCreekCommon/*.java bitCreekPeer/*.java ioInterface/Client*.java ioInterface/ConsoleOut.java ioInterface/OutInterface.java -d $1
+
+echo "generating stub for Remote Method Invocation"
+rmic bitCreekServer.BitCreekServer -d $1
+
+cp clientstore $1
+echo "done"
+
+

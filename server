@@ -1,0 +1,1 @@
+java -Djava.security.policy=server.policy bitCreekServer/BitCreekServer
